@@ -1,35 +1,52 @@
-import "./styles.css";
+import { useEffect, useState } from "react"
+import { NewTodoForm } from "./components/NewTodoForm"
+import "./styles.css"
+import { TodoList } from "./components/TodoList"
 
-function App() {
+export default function App() {
+  const [todos, setTodos] = useState(() => {
+    const localValue = localStorage.getItem("ITEMS")
+    if (localValue == null) return []
+
+    return JSON.parse(localValue)
+  })
+
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos))
+  }, [todos])
+
+  function addTodo(title) {
+    setTodos(currentTodos => {
+      return [
+        ...currentTodos,
+        { id: crypto.randomUUID(), title, completed: false },
+      ]
+    })
+  }
+
+  function toggleTodo(id, completed) {
+    setTodos(currentTodos => {
+      return currentTodos.map(todo => {
+        if (todo.id === id) {
+          return { ...todo, completed }
+        }
+
+        return todo
+      })
+    })
+  }
+
+  function deleteTodo(id) {
+    setTodos(currentTodos => {
+      return currentTodos.filter(todo => todo.id !== id)
+    })
+  }
+
   return (
     <>
-      <form className="new-item-form">
-        <div className="form-row">
-          <label htmlFor="item">ADD ITEM</label>
-          <input type="text" id="item" />
-        </div>
-
-        <button className="btn">ADD</button>
-      </form>
-      <h1 className="header ">TODO LIST</h1>
-      <ul className="list">
-        <li>
-          <label>
-            <input type="checkbox" />
-            item1
-          </label>
-          <button className="btn btn-danger">DELETE</button>
-        </li>
-        <li>
-          <label>
-            <input type="checkbox" />
-            item2
-          </label>
-          <button className="btn btn-danger">DELETE</button>
-        </li>
-      </ul>
+      <NewTodoForm onSubmit={addTodo} />
+      <h1 className="header">Todo List</h1>
+      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
     </>
-  );
+  )
 }
-
-export default App;
