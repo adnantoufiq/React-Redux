@@ -1,166 +1,97 @@
-const { INCREMENT, DECREMENT,  RESET, INCREMENT_BY_VALUE, ADD_USER } = require('./consts');
 
-// require module
-const { createStore } = require('redux');
+const { ADD_PRODUCT, GET_PRODUCT, DELETE_PRODUCT } = require("./consts")
+
+const { createStore, applyMiddleware } = require('redux');
 
 
-/**
- * STATE Define
- * ACTION Dispatch
- * REDUCER Function
- * STORE Update
- */
 
-// STATE define
 
-/** counter state define */
-const initialCounterState = {
-  counter: 0,
-};
+/** STATE initialization for products using object : */
 
-/** users state define */
-const initialUsersState ={
-  users:['arif'],
-  countUser: 1 
+const initialProductsState = {
+      products: ['mango', "banana"],
+      numberOfProducts: 2
 }
 
-// ACTION is an object with two value(type, payload)
 
-/** INCREMENT_COUNTER */
 
-const incrementCounter = () => {
+/** ACTION define - (type, payload) */
+
+/** ADD_PRODUCT */
+const  addProduct = (value) =>{
   return {
-    type: INCREMENT,
-  };
-};
-
-/** DECREMENT_COUNTER */
-
-const decrementCounter = () => {
-  return {
-    type: DECREMENT,
-  };
-};
-
-/** RESET_COUNTER */
-
-const resetCounter = () => {
-  return {
-    type: RESET,
-  };
-};
-
-/** INCREMENT_BY_VALUE */
-
-const incrementByValueCounter = (value) => {
-  return {
-    type: INCREMENT_BY_VALUE,
-    payload: value,
-  };
-};
-
-
-
-/** ADD_USER */
-
-const addUser = (value) => {
-  return {
-    type: ADD_USER,
-    payload: value,
-  };
-};
-
-
-/**
- * Reducer function always takes two parameter
- * @param {*} state  initial value for state 
- * @param {*} action  action create increment , decrement, reset, increment_by_value
- * @returns 
- */
-
-// const counterReducer = (state = initialCounterState , action) => {
-//   switch (action.type) {
-//     case INCREMENT:
-//       return {
-//         ...state,   // getting all the value from initialCounterState
-//         counter: state.counter + 1,    // only change counter value
-//       };
-
-//     case DECREMENT:
-//       return {
-//         ...state,
-//         counter: state.counter - 1,
-//       };
-//     case RESET:
-//         return {    
-//           counter: 0,
-//         };  
-//     case INCREMENT_BY_VALUE:
-//           return {
-//             ...state,
-//             counter: state.counter + action.payload,
-//           };    
-//     default:
-//       state;
-//   }
-// };
-
-/**
- * Reducer function always takes two parameter( state, action)
- * @param {*} state  initial value for state 
- * @param {*} action  action for user add and count user
- * @returns 
- */
-
-const userCounterReducer = ( state = initialUsersState, action) => {
-
-  switch (action.type) {
-    case ADD_USER:
-      return{
-        users:[...state.users, action.payload],
-        countUser: state.countUser + 1
-      }
-       
-    default:
-      state;
+    type: ADD_PRODUCT,
+    payload: value
   }
-
-
 }
 
-// STORE - ( getState(), dispatch(), subscribe() )
+/** GET_PRODUCT */
 
-// const counterStore = createStore(counterReducer) // store create
+const  getProduct = () =>{
+  return {
+    type: GET_PRODUCT,
+  }
+}
 
-// counterStore.subscribe(()=>{
-//   console.log(counterStore.getState())   // check state value  using store.getState()
-// })
+/** DELETE_PRODUCT */
 
-// action dispatch
-
-// counterStore.dispatch(incrementCounter())
-// counterStore.dispatch(incrementCounter())
-// counterStore.dispatch(decrementCounter())
-// counterStore.dispatch(resetCounter())
-// counterStore.dispatch(incrementByValueCounter(10))
-// counterStore.dispatch(incrementByValueCounter(20))
-
-
+const  deleteProduct = (product) =>{
+  return {
+    type: GET_PRODUCT,
+    payload: product
+  }
+}
 
 
 
 
-const userStore = createStore(userCounterReducer) // store create
+/**
+ * reducer function 
+ * @param {*} state 
+ * @param {*} action 
+ * @returns 
+ */
 
-userStore.subscribe(()=>{
-console.log(userStore.getState())   // check state value  using store.getState()
+const productReducer = (state = initialProductsState , action) => {
+  switch (action.type) {
+    case ADD_PRODUCT:
+      return {
+        products: [...state.products, action.payload],   // getting all the value from initialCounterState
+        numberOfProducts: state.numberOfProducts + 1,    // only change counter value
+      };
+
+    case GET_PRODUCT:
+      return {
+        products:[...state.products]
+      };
+  
+      case DELETE_PRODUCT:
+        return {
+          ...state.filter((p, i, products)=>{
+             (p!== action.payload)
+          })
+        };
+    
+    default:
+     return state;
+  }
+};
+
+ 
+
+
+// STORE create - (getState(), dispatch(), subscribe())
+
+
+const store = createStore(productReducer) // store create
+
+store.subscribe(()=>{
+  console.log(store.getState())   // check state value  using store.getState()
 })
 
+
 // action dispatch
-userStore.dispatch(addUser("islam"))
-userStore.dispatch(addUser("toufiq"))
-
-
+store.dispatch(addProduct("orange"))
 
 
 
