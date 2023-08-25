@@ -1,4 +1,5 @@
 
+const { default: logger } = require("redux-logger");
 const { ADD_PRODUCT, GET_PRODUCT, DELETE_PRODUCT } = require("./consts")
 
 const { createStore, applyMiddleware } = require('redux');
@@ -83,7 +84,7 @@ const productReducer = (state = initialProductsState , action) => {
 // STORE create - (getState(), dispatch(), subscribe())
 
 
-const store = createStore(productReducer) // store create
+const store = createStore(productReducer, applyMiddleware(logger)) // store create
 
 store.subscribe(()=>{
   console.log(store.getState())   // check state value  using store.getState()
