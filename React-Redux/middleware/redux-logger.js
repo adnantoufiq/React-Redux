@@ -10,7 +10,7 @@ const { createStore, applyMiddleware } = require('redux');
 /** STATE initialization for products using object : */
 
 const initialProductsState = {
-      products: ['mango', "banana"],
+      products: ["mango", "banana"],
       numberOfProducts: 2
 }
 

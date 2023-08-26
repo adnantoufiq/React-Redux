@@ -1,7 +1,5 @@
-
-
 const { default: thunk } = require("redux-thunk");
-const { GET_TODOS_API_REQUEST, GET_TODOS_SUCCESS, GET_TODOS_FAIL, API_URL } = require("./consts")
+const { GET_TODOS_API_REQUEST, GET_TODOS_SUCCESS, GET_TODOS_FAIL } = require("../consts")
 const { createStore, applyMiddleware } = require('redux');
 const { default: axios } = require("axios");
 
@@ -56,26 +54,20 @@ const getTodosFail = (error) =>{
 
 }
 
-/**
- * 
- * @param {*} state  initial-state  is define
- * @param {*} action  three types of action takes 
- * @returns sate based on action types
- */
 
 const todosReducers = ( state = initialTodosState, action ) =>{
     switch (action.type) {
         case GET_TODOS_API_REQUEST:
             return{
                 ...state,
-                isLoading: true
+                isLoading:true
 
             }
 
         case GET_TODOS_SUCCESS:
             return{
                 ...state,
-                isLoading: false,
+                isLoading:false,
                 todos:action.payload               
             } 
 
@@ -93,11 +85,8 @@ const todosReducers = ( state = initialTodosState, action ) =>{
 }
 
 
-/**
- * @description todoDataFetch() function 
- * @returns fetch todos with promise type
- */
-const todoDataFetch = ( ) =>{
+// async action
+const todoDataFatch = ( ) =>{
 
     return (dispatch) =>{
 
@@ -105,15 +94,16 @@ const todoDataFetch = ( ) =>{
         
         axios.get(API_URL)
         .then((response)=>{
-            const titles = response.data.map((value, index, array)=>  value.title  )
-            dispatch(getTodosSuccess(titles))
+            console.log(response.data)
 
         })
         .catch((err)=>{
-            dispatch(getTodosFail(err.message))
+            console.log(err.message)
         })
 
+
     }
+
 
 }
 
@@ -132,4 +122,4 @@ store.subscribe(()=>{
 })
 
 // action dispatch
-store.dispatch(todoDataFetch())
+store.dispatch(todoDataFatch())

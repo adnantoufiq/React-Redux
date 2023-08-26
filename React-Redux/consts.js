@@ -11,6 +11,10 @@ const ADD_USER = "ADD_USER"
 const ADD_PRODUCT = "ADD_PRODUCT" 
 const GET_PRODUCT = "GET_PRODUCT" 
 const DELETE_PRODUCT = "DELETE_PRODUCT" 
+const GET_TODOS_API_REQUEST = "GET_TODOS_API_REQUEST"
+const GET_TODOS_SUCCESS = "GET_TODOS_SUCCESS"
+const GET_TODOS_FAIL = "GET_TODOS_FAIL"
+const API_URL = "https://jsonplaceholder.typicode.com/todos/"
 
 
 
@@ -26,4 +30,8 @@ module.exports ={
     ADD_PRODUCT,
     GET_PRODUCT,
     DELETE_PRODUCT,
+    GET_TODOS_API_REQUEST,
+    GET_TODOS_SUCCESS,
+    GET_TODOS_FAIL,
+    API_URL
 }
