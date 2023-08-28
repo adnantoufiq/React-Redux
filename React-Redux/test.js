@@ -1,14 +1,12 @@
-// const arr = [3, 1, 4, 1, 5, 9,9];
+console.log("start");
 
-function secondLargestValue (arr){
-    const uniqueArray = Array.from( new Set(arr))
-    const sortValue = uniqueArray.sort((a, b) => b-a)
-    if(sortValue.length >=2){
-       return console.log( sortValue[1])
-    }
-    return false
-
+function check(){
+    setTimeout(()=>{
+        console.log('second')
+    },1000)
 
 }
 
-secondLargestValue([9])
+check()
+
+console.log("third")
